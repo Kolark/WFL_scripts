@@ -4,7 +4,7 @@ Permite modificar t con un slider para ver como cambian en el tiempo.
 """
 import geopandas as gpd
 import numpy as np
-from wind_dataset import WindDataset, TimeScale
+from wind_dataset import WindDataset
 from plot_utils import plot_wind_data_with_slider
 # wind_ds = WindDataset(
 #     nc_path="data/netcdf/merra_processed.nc",
@@ -26,12 +26,12 @@ from plot_utils import plot_wind_data_with_slider
 # )
 
 wind_ds = WindDataset(
-    nc_path="data/netcdf/monthly_averaged_dataset.nc",
+    nc_path="/home/felipe/Desktop/Trabajo/Data/corregidos/wind_data_100m_D01.nc",
     easting="Easting",
     northing="Northing",
     ws="WS",
-    time_dim="time",
-    time_scale=TimeScale.Monthly,
+    x_dim="x",
+    y_dim="y"
 )
 
 minx, miny, maxx, maxy = wind_ds.ds.rio.bounds()
@@ -45,18 +45,18 @@ miny += height*multiplier
 maxx -= width*multiplier
 maxy -= height*multiplier
 
-ws, wd, new_bounds = wind_ds.filter_by_bounds(minx,miny,maxx,maxy)
+ws, wd, new_bounds, _ = wind_ds.filter_by_bounds(minx,miny,maxx,maxy)
 
-ws_point, wd_point = wind_ds.get_wind_data(
-    [4947111.376452917], [2551943.728471596]
-)
+# ws_point, wd_point = wind_ds.get_wind_data(
+#     [4947111.376452917], [2551943.728471596]
+# )
 
 wind_ds.fill_cache(new_bounds)
 ws_point_cache, wd_point_cache = wind_ds.get_wind_data_from_cache(
     [4947111.376452917], [2551943.728471596]
 )
 
-print(ws_point.flatten())
+# print(ws_point.flatten())
 print(ws_point_cache.flatten())
 print(ws.shape)
 print(wd.shape)

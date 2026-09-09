@@ -41,14 +41,22 @@ gdf = gpd.read_file("data/eolico_10_m/Zona_F_Eolico_10m.shp")
 gdf = gdf.to_crs(epsg=9377)
 
 geometries = {
-    # "sb": gdf.geometry.iloc[33601], # e_10m_33602,
-    # "sg": gdf.geometry.iloc[36598], # e_10m_36599,
-    # "mb": gdf.geometry.iloc[34267], #e_10m_34268##BAD,
+    "sb": gdf.geometry.iloc[33601], # e_10m_33602,
+    "sg": gdf.geometry.iloc[36598], # e_10m_36599,
+    "mb": gdf.geometry.iloc[34267], #e_10m_34268##BAD,
     "mg": gdf.geometry.iloc[36661], #e_10m_36662##BUENO,
-    # "bb": gdf.geometry.iloc[33929], # e_10m_33930,
-    # "bg": gdf.geometry.iloc[36643], # e_10m_36644,
+    "bb": gdf.geometry.iloc[33929], # e_10m_33930,
+    "bg": gdf.geometry.iloc[36643], # e_10m_36644,
 }
 
+geom_departamentos = {
+    "sb": "atlantico",
+    "sg": "la guajira",
+    "mb": "la guajira",
+    "mg": "la guajira",
+    "bb": "atlantico",
+    "bg": "la guajira",
+}
 
 # ========TURBINE===========
 modelo = "Aeolos H-5kW"
