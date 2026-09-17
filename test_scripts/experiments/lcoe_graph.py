@@ -8,8 +8,8 @@ department_name = "antioquia"
 fcap_init = 29.0
 
 # 2. Definir los rangos para la malla (Mapeo de Capacidad vs N° Turbinas)
-cap_vals = np.linspace(10, 1000, 50)      # Ejemplo: Capacidad de 10 a 500 MW
-turb_vals = np.arange(1, 101, 1)          # Ejemplo: 1 a 50 turbinas
+cap_vals = np.linspace(0.1, 1, 50)      # Ejemplo: Capacidad de 10 a 500 MW
+turb_vals = np.arange(1, 201, 1)          # Ejemplo: 1 a 50 turbinas
 
 C, N = np.meshgrid(cap_vals, turb_vals)
 

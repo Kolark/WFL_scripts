@@ -6,11 +6,11 @@ from matplotlib.widgets import Slider
 # 1. Configuración de parámetros y rangos iniciales
 department_name = "La Guajira"
 fcap_init = 29.0
-cap_min, cap_max = 10, 500  # Rango de Capacidad en MW
-cap_init = 250.0            # Valor inicial del slider de capacidad
+cap_min, cap_max = 0.1, 1  # Rango de Capacidad en MW
+cap_init = 0.5           # Valor inicial del slider de capacidad
 
 cap_vals = np.linspace(cap_min, cap_max, 30)
-turb_vals = np.arange(1, 51, 2)
+turb_vals = np.arange(1, 201, 2)
 C, N = np.meshgrid(cap_vals, turb_vals)
 
 # 2. Funciones de cálculo para la malla (3D) y para una capacidad específica (2D)
@@ -82,8 +82,8 @@ cbar.set_label('LCOE')
 slider_fcap = Slider(
     ax=ax_slider_fcap,
     label='FCap (%)',
-    valmin=0.0,
-    valmax=100.0,
+    valmin=0.1,
+    valmax=1.0,
     valinit=fcap_init,
     valstep=1.0
 )
