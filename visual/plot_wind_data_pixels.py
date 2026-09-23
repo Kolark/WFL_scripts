@@ -25,15 +25,21 @@ from plot_utils import plot_wind_data_with_slider
 #     # chunks="auto",
 # )
 
+# wind_ds = WindDataset(
+#     nc_path="/home/felipe/Desktop/Trabajo/Data/corregidos/wind_data_100m_D01.nc",
+#     easting="Easting",
+#     northing="Northing",
+#     ws="WS",
+#     x_dim="x",
+#     y_dim="y"
+# )
 wind_ds = WindDataset(
-    nc_path="/home/felipe/Desktop/Trabajo/Data/corregidos/wind_data_100m_D01.nc",
+    nc_path="/home/felipe/Desktop/Trabajo/Data/Newdataq/wind_data_10m(1).nc",
     easting="Easting",
     northing="Northing",
     ws="WS",
-    x_dim="x",
-    y_dim="y"
+    time_dim="time",
 )
-
 minx, miny, maxx, maxy = wind_ds.ds.rio.bounds()
 
 height = abs(miny-maxy)
@@ -45,7 +51,7 @@ miny += height*multiplier
 maxx -= width*multiplier
 maxy -= height*multiplier
 
-ws, wd, new_bounds, _ = wind_ds.filter_by_bounds(minx,miny,maxx,maxy)
+ws, wd, new_bounds, _,_ = wind_ds.filter_by_bounds(minx,miny,maxx,maxy)
 
 # ws_point, wd_point = wind_ds.get_wind_data(
 #     [4947111.376452917], [2551943.728471596]

@@ -189,7 +189,7 @@ def plot_interactive_history(
 
 np.random.seed(42)
 config = GAConfig(
-    num_generations=10,
+    num_generations=1000,
     sol_per_pop=10,
     num_parents_mating=5,
     K_tournament=5,

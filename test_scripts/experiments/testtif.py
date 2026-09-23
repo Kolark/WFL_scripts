@@ -1,20 +1,67 @@
-from PIL import Image
-import PIL.ExifTags
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.array([5017056.6878    , 5017075.8878    , 5017095.0878    ,
+       5017115.8878    , 5016960.6878    , 5016979.8878    ,
+       5016999.0878    , 5017018.2878    , 5017037.4878    ,
+       5017056.6878    , 5017077.4878    , 5016897.81917085,
+       5016922.2878    , 5016941.4878    , 5016960.6878    ,
+       5016979.8878    , 5016999.0878    , 5017018.2878    ,
+       5017037.4878    , 5017058.9505417 , 5016883.8878    ,
+       5016903.0878    , 5016922.2878    , 5016941.4878    ,
+       5016960.6878    , 5016979.8878    , 5016999.0878    ,
+       5017018.2878    , 5017037.4878    , 5017061.95642915,
+       5017082.2878    , 5016864.6878    , 5016882.75642915,
+       5016903.0878    , 5016845.4878    , 5016863.55642915,
+       5016883.8878    , 5016826.2878    , 5016845.4878    ,
+       5016864.6878    , 5016885.4878    ])
+y = np.array([2768609.5373    , 2768604.7373    , 2768601.5373    ,
+       2768599.9373    , 2768649.5373    , 2768647.9373    ,
+       2768647.9373    , 2768647.9373    , 2768647.9373    ,
+       2768646.3373    , 2768644.7373    , 2768691.60592915,
+       2768692.7373    , 2768692.7373    , 2768692.7373    ,
+       2768692.7373    , 2768692.7373    , 2768692.7373    ,
+       2768692.7373    , 2768690.4745583 , 2768743.9373    ,
+       2768739.1373    , 2768737.5373    , 2768737.5373    ,
+       2768737.5373    , 2768737.5373    , 2768737.5373    ,
+       2768737.5373    , 2768737.5373    , 2768738.66867085,
+       2768737.5373    , 2768788.7373    , 2768781.20592915,
+       2768779.1373    , 2768833.5373    , 2768826.00592915,
+       2768823.9373    , 2768878.3373    , 2768873.5373    ,
+       2768870.3373    , 2768868.7373    ])
 
-# Open the image
-with Image.open("/home/felipe/Desktop/Trabajo/Data/COL_wind-speed_100m.tif") as img:
-    # Get basic image attributes
-    width, height = img.size
-    mode = img.mode  # e.g., 'RGB', 'L', 'I;16'
-    num_frames = getattr(img, "n_frames", 1)
-    
-    print(f"Dimensions: {width} x {height} pixels")
-    print(f"Color Mode: {mode}")
-    print(f"Number of Pages/Frames: {num_frames}")
+fig, (ax, ax2) = plt.subplots(1, 2, figsize=(10,10))
 
-    # Read TIFF/EXIF metadata tag dictionary
-    meta_data = img.tag_v2
-    print("\n--- TIFF Metadata Tags ---")
-    for tag_id, value in meta_data.items():
-        tag_name = PIL.ExifTags.TAGS.get(tag_id, tag_id)
-        print(f"{tag_name} ({tag_id}): {value}")
+import xarray as xr
+
+ds = xr.open_dataset("/home/felipe/Desktop/Trabajo/Data/Newdataq/deg_wind_data_10m.nc")
+
+print(ds["WD"].values[66, 91, 188])
+
+ax.scatter(x,y)
+u = -0.28218073
+v = -0.95936126
+
+# v = 0.28218073
+# u = 0.95936126
+
+
+ax.quiver(
+    0.5,
+    0.5,  # Center of plot in axes units
+    u,
+    v,
+    pivot="middle",
+    transform=ax.transAxes,  # Center in axes fraction
+    scale=3,  # Controls length relative to plot height
+    scale_units="height",  # <--- Fixes scale issue regardless of scatter data range!
+    angles="uv",  # Uses direction of (u, v) in screen space
+    width=0.01,  # Line thickness
+    color="red",
+)
+x_rot = x * u + y * v
+
+y_rot = x * (-v) + y * u
+
+
+ax2.scatter(x_rot, y_rot)
+plt.show()

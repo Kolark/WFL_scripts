@@ -1,7 +1,7 @@
 from pprint import pprint
 from layout_optimization.ga.crossover import two_point_crossover, checkerboard_crossover
 from layout_optimization.ga.selection import tournament_selection
-from layout_optimization.ga.mutation import mutacion_experimental, mutar_encender_alejados_umbral, eliminate_points_mask_fast
+from layout_optimization.ga.mutation import mutacion_experimental, mutar_encender_alejados_umbral, eliminate_points_mask_fast, bit_flip_mutation
 from matplotlib.patches import Circle
 from matplotlib.collections import PatchCollection
 from layout_optimization.ga.raster_utils import get_raster_pixel_coords
@@ -31,7 +31,7 @@ gdf = gpd.read_file(
     "/home/felipe/Desktop/Trabajo/WFL_scripts/data/eolico_10_m/Zona_F_Eolico_10m.shp")
 gdf = gdf.to_crs(epsg=9377)
 
-geo_str = "mb"
+geo_str = "mg"
 geometry = input_data.geometries[geo_str]
 geom_department = input_data.geom_departamentos[geo_str]
 
@@ -198,7 +198,7 @@ ga = GeneticAlgorithm(
     init_func=init_bool_with_prob,
     fitness_func=fitness_func,
     num_genes=len(candidate_x),
-    mutation_func=mutacion_experimental,
+    mutation_func=bit_flip_mutation,
     selection_func=tournament_selection,
     crossover_func=checkerboard_crossover,
     polygon=geometry

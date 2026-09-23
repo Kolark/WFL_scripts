@@ -16,13 +16,21 @@ from matplotlib.widgets import Slider
 
 # =====================WindDataset==loading data===============================
 
+# wind_ds = WindDataset(
+#     nc_path="/home/felipe/Desktop/Trabajo/Data/corregidos/wind_data_100m.nc",
+#     easting="Easting",
+#     northing="Northing",
+#     ws="WS",
+#     x_dim="x",
+#     y_dim="y"
+# )
+
 wind_ds = WindDataset(
-    nc_path="/home/felipe/Desktop/Trabajo/Data/corregidos/wind_data_100m.nc",
+    nc_path="/home/felipe/Desktop/Trabajo/Data/Newdataq/wind_data_10m(1).nc",
     easting="Easting",
     northing="Northing",
     ws="WS",
-    x_dim="x",
-    y_dim="y"
+    time_dim="time",
 )
 
 def shrink_bounds(bounds, s=0.5):
@@ -34,7 +42,7 @@ def shrink_bounds(bounds, s=0.5):
 print("Getting all wind data.")
 bounds = wind_ds.ds.rio.bounds()
 sub_bounds = shrink_bounds(bounds=bounds, s=0.65)
-ws, wd, _, _ = wind_ds.filter_by_bounds(*bounds)
+ws, wd, _, _, _= wind_ds.filter_by_bounds(*bounds)
 
 wind_ds.fill_cache(sub_bounds)
 sub_ws = wind_ds._cache["ws"]
