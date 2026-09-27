@@ -2,19 +2,17 @@ import geopandas as gpd
 from lcoe import calculate_lcoe
 from wake_models import WakeModel, obtener_aerogenerador
 import numpy as np
-from wind_dataset import WindDataset
+from wind_dataset import WindDataset, DatasetParams
 from wake_models import WakeModel
 
 import xarray as xr
 
-wind_ds = WindDataset(
+ds_params = DatasetParams(
     nc_path="/home/felipe/Desktop/Trabajo/Data/Newdataq/wind_data_10m(1).nc",
-    easting="Easting",
-    northing="Northing",
-    ws="WS",
-    time_dim="time",
-)
+    easting_coord="Easting", northing_coord="Northing", ws_var="WS",
+    time_dim="time", time_res="monthly")
 
+wind_ds = WindDataset(params=ds_params)
 
 # ========PARAMS============
 wake_k = 0.075
@@ -79,7 +77,11 @@ from ubicar_turbinas.results_formatter import get_detailed_result
 from pprint import pprint
 from data_export import export_geojson_park
 from dataclasses import asdict
-dr = get_detailed_result(result=res, wake_model=wake_model, wind_ds=wind_ds)
+dr = get_detailed_result(x=x, y=y, wake_model=wake_model, wind_ds=wind_ds)
+# try:
+# except Exception as e:
+#     print(e)
+
 export_geojson_park(
                     x,
                     y,
@@ -88,7 +90,7 @@ export_geojson_park(
                     output_dir="/home/felipe/Desktop/Trabajo/WFL_scripts/results/adapt",
                 )
 
-
+#===
 # ws, wd = wind_ds.get_wind_data_from_cache(x, y)
 
 # ws = ws[4:-4]
