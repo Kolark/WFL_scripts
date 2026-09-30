@@ -30,9 +30,8 @@ wake_model = WakeModel(
     max_wake_distance_D=max_wake_distance_D,
 )
 
-wind_ds.fill_cache(wind_ds.ds.rio.bounds())
-wind_ds.set_cache_height_factor(12.0)
-wind_ds.set_cache_density_factor()
+
+# wind_ds.set_cache_density_factor()
 
 x = np.array([5017056.6878    , 5017075.8878    , 5017095.0878    ,
        5017115.8878    , 5016960.6878    , 5016979.8878    ,
@@ -63,6 +62,13 @@ y = np.array([2768609.5373    , 2768604.7373    , 2768601.5373    ,
        2768823.9373    , 2768878.3373    , 2768873.5373    ,
        2768870.3373    , 2768868.7373    ])
 
+minx : float = min(x)
+miny : float = min(y)
+maxx : float = max(x)
+maxy : float = max(y)
+cache_bounds = (minx,miny,maxx,maxy)
+wind_ds.fill_cache(cache_bounds)
+wind_ds.set_cache_height_factor(12.0)
 res = {
     "x": x,
     "y": y,
@@ -90,28 +96,7 @@ export_geojson_park(
                     output_dir="/home/felipe/Desktop/Trabajo/WFL_scripts/results/adapt",
                 )
 
-#===
-# ws, wd = wind_ds.get_wind_data_from_cache(x, y)
 
-# ws = ws[4:-4]
-# wd = wd[4:-4]
-# ts = wind_ds.ts[4:-4]
-# # print(wind_ds.ds[wind_ds.time_dim].values[4:-4])
-# _, aep_wake_turbines, _ = wake_model.calc_wake_on_turbines_detailed(
-#     x, y, ws, wd, ts
-# )
-
-# # Métricas energéticas
-# generated_energy = aep_wake_turbines.sum()
-# max_aep = (
-#     wake_model.aerogenerator.p_nominal_kW * ts.sum() *
-#     len(x))
-
-# cf = (generated_energy / max_aep) * 100.0  # En porcentaje (%)
-# potencia_mW = (
-#     (aep_wake_turbines / ts[:, np.newaxis]).mean(axis=0).sum()
-#     / 1000.0
-# )
 
 # print("max_aep", max_aep)
 # print("cf", cf)
