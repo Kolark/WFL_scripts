@@ -1,6 +1,6 @@
 import geopandas as gpd
 import pandas as pd
-from wind_dataset.wind_dataset import WindDataset
+from wind_dataset.wind_dataset import WindDataset, DatasetParams, TimeResolution
 from layout_optimization.fitness_funcs import (
     make_max_multivar_fn,
     make_min_multivar_fn,
@@ -13,13 +13,6 @@ from layout_optimization.fitness_funcs import (
 from wake_models.wake_metrics import get_park_cf, get_park_loss
 from wake_models import WakeModel, obtener_aerogenerador
 from plot_utils import plot_result, draw_squares_around_points
-from layout_optimization import WindFarmGAOptimizer
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
-from matplotlib.collections import PatchCollection
-from matplotlib.lines import Line2D
-import matplotlib.pyplot as plt
-from tqdm import tqdm
 # ========WINDDATA===========
 # wind_ds = WindDataset(
 #     nc_path="data/netcdf/ws_wd_ctm12_chunked_uvnorm.nc",
@@ -28,13 +21,19 @@ from tqdm import tqdm
 #     ws="WS",
 # )
 
-wind_ds = WindDataset(
-    nc_path="/home/felipe/Desktop/Trabajo/wrf_data/final_nc_process/wind_data_10m.nc",
-    easting="Easting",
-    northing="Northing",
-    ws="WS",
-    time_dim="time"
-)
+# wind_ds = WindDataset(
+#     nc_path="/home/felipe/Desktop/Trabajo/wrf_data/final_nc_process/wind_data_10m.nc",
+#     easting="Easting",
+#     northing="Northing",
+#     ws="WS",
+#     time_dim="time"
+# )
+ds_params = DatasetParams(
+    nc_path="/home/felipe/Desktop/Trabajo/Data/Newdataq/wind_data_10m(1).nc",
+    easting_coord="Easting", northing_coord="Northing", ws_var="WS",
+    time_dim="time", time_res=TimeResolution.Monthly)
+
+wind_ds = WindDataset(params=ds_params)
 # ========GEOMETRY===========
 
 gdf = gpd.read_file("data/eolico_10_m/Zona_F_Eolico_10m.shp")

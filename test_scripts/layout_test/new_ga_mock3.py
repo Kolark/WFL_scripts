@@ -182,7 +182,7 @@ def plot_interactive_history(
 
 np.random.seed(42)
 config = GAConfig(
-    num_generations=1000,
+    num_generations=100,
     sol_per_pop=10,
     num_parents_mating=5,
     K_tournament=5,
@@ -206,6 +206,8 @@ ga = GeneticAlgorithm(
 
 # ====
 best_solution, best_fitness = ga.run()
+
+ga.save_to_pickle("/home/felipe/Desktop/Trabajo/WFL_scripts/results/history.pkl")
 
 fig, axes = plt.subplots(2, 3, figsize=(15, 10))
 ax, ax2, ax3, ax4, ax5, ax6 = axes.flatten()

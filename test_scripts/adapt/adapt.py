@@ -2,7 +2,7 @@ import geopandas as gpd
 from lcoe import calculate_lcoe
 from wake_models import WakeModel, obtener_aerogenerador
 import numpy as np
-from wind_dataset import WindDataset, DatasetParams
+from wind_dataset import WindDataset, DatasetParams, TimeResolution
 from wake_models import WakeModel
 
 import xarray as xr
@@ -10,7 +10,7 @@ import xarray as xr
 ds_params = DatasetParams(
     nc_path="/home/felipe/Desktop/Trabajo/Data/Newdataq/wind_data_10m(1).nc",
     easting_coord="Easting", northing_coord="Northing", ws_var="WS",
-    time_dim="time", time_res="monthly")
+    time_dim="time", time_res=TimeResolution.Monthly)
 
 wind_ds = WindDataset(params=ds_params)
 
@@ -69,15 +69,7 @@ maxy : float = max(y)
 cache_bounds = (minx,miny,maxx,maxy)
 wind_ds.fill_cache(cache_bounds)
 wind_ds.set_cache_height_factor(12.0)
-res = {
-    "x": x,
-    "y": y,
-    "n_turbinas": len(x),
-    "start_idx": 4,
-    "end_idx": 100,
-    "years" : 8,
-    "lcoe" : -1
-}
+
 
 from ubicar_turbinas.results_formatter import get_detailed_result
 from pprint import pprint
